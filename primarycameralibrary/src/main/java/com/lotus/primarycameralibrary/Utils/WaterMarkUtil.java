@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.text.TextPaint;
 import android.text.TextUtils;
 
@@ -19,7 +20,7 @@ import android.text.TextUtils;
  *
  */
 public class WaterMarkUtil {
-    private static final int COLOR = Color.parseColor("#FFFFFF");
+    private static final int COLOR = Color.parseColor("#f7c215");
 
     /**
      * 保存已经打好水印的照片工具（处理后的图片会放在原文件夹下的MarkedImage文件夹中）
@@ -27,13 +28,14 @@ public class WaterMarkUtil {
      * @param fileName 原图文件名
      * @param fileDir 原图文件夹
      */
-    public static void SaveUpBitmapUtil(Activity activity, String fileName, String fileDir) {
-        Bitmap temp = ImageDimenCompressUtil.decodeBitmapFromFile(fileDir + "/" + fileName, TransPixelUtil.dip2px(activity, 120), TransPixelUtil.dip2px(activity, 160));
-        File dir = new File(fileDir + "/MarkedImage");
+    public static String SaveUpBitmapUtil(Activity activity, String fileName, String fileDir) {
+        String path = Environment.getExternalStorageDirectory()+ "/" +fileDir;
+        Bitmap temp = ImageDimenCompressUtil.decodeBitmapFromFile(path + "/" + fileName, TransPixelUtil.dip2px(activity, 120), TransPixelUtil.dip2px(activity, 160));
+        File dir = new File(path + "/MarkedImage");
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        File f = new File(fileDir + "/MarkedImage/" + fileName);
+        File f = new File(path + "/MarkedImage/" + fileName);
         if (f.exists()) {
             f.delete();
         }
@@ -47,6 +49,7 @@ public class WaterMarkUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return path + "/MarkedImage/" + fileName;
     }
 
     /**

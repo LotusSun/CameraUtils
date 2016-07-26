@@ -17,17 +17,16 @@ public class StartCameraUtil {
      * @param code 自定义onActivity处理编号
      * @param dirName 图片存储文件夹名
      */
-    public static void cameraLaunch(Activity activity,int code,String dirName){
+    public static void cameraLaunch(Activity activity,int code,String dirName,String fileName){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String status = Environment.getExternalStorageState();
-        String localTempImgFileName = System.currentTimeMillis() + ".jpg";
         if (status.equals(Environment.MEDIA_MOUNTED)) {
             try {
                 File dir = new File(Environment.getExternalStorageDirectory() + "/" + dirName);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                File file = new File(dir, localTempImgFileName);
+                File file = new File(dir, fileName);
                 Uri uri = Uri.fromFile(file);
                 intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
